@@ -1,0 +1,149 @@
+# Example OpenAPI YAML to get you started quickly.
+# Note: YAML has indentation based coping.
+# Code completion support is available so start typing for
+# available options.
+# This example follows the recommendations of the API 
+# Improvement Proposals for common API patterns. Find more
+# at https://google.aip.dev/
+
+# Find the full OpenAPI reference at:
+# https://github.com/OAI/OpenAPI-Specification
+openapi: 3.0.0
+
+# This is your document metadata.
+info:
+  version: 0.0.1
+  title: folders API
+  description: Call Gas API Sample
+
+# Servers where this API is hosted
+servers: 
+  - url: http://yourapigee-please-replace/node-hosted-express
+
+# Describe your paths here
+paths:
+  # This is a endpoint path.
+  '/folders':
+    # This is an HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      summary: 'List `folder` objects.'
+      description: |
+        Retrieve a page of `folder` objects from the server. 
+        Follows the standards for parameters from the
+        [List AIP](  https://aip.dev/132).
+      # This is an array of GET operation parameters:
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        '200':
+          description: Successful response
+          # Response body content.
+          content:
+            # JSON response with a schema referenced from the  
+            # components object.
+            application/json:
+              schema:
+                type: object
+                properties:
+                  folders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ListOfFolders'
+    post:
+      summary: Add a folder
+      description: "Send a request and view the resulting request headers and body in JSON
+        format."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/folder"
+        description: Request payload in application/json
+        required: true
+      responses:
+        "200":
+          description: Success
+  '/folders/{id}':
+    get:
+      summary: Retrieve a folder
+      description: 'Retrieve a single folder object.'
+      parameters:
+        - name: id
+          in: path
+          description: |
+            Unique identifier of the desired folder object.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/folder'
+        '404':
+          description: 'folder was not found'
+    put:
+      summary: Update a folder
+      description: "Send a request and view the resulting request headers and body in JSON
+        format."
+      parameters:
+        - name: id
+          in: path
+          description: |
+            Unique identifier of the desired folder object.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/folder"
+        description: Request payload in application/json
+        required: true
+      responses:
+        "200":
+          description: Success
+    delete:
+      summary: Delete a folder
+      description: "Send a request and view the resulting request headers and body in JSON
+        format."
+      parameters:
+        - name: id
+          in: path
+          description: |
+            Unique identifier of the desired folder object.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+
+# Reusable components of your API belong here. Utilize
+# components with JSON references.
+components:
+  # Schemas is a map of names to Schema objects
+  schemas:
+    # A list of folder objects
+    ListOfFolders:
+      title: List of folders
+      type: array
+      items:
+        $ref: '#/components/schemas/folder'
+    # A single folder object
+    folder:
+      title: folder
+      type: object
+      properties:
+        id:
+          description: 'Id of folder'
+          type: string
+          example: 1
+        folderName:
+          description: 'Name of a folder.'
+          type: string
+          example: "MyFolder"
