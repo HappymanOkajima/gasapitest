@@ -80,7 +80,7 @@ app.get('/auth', async (req, res) => {
     scope: SCOPES,
   });
   console.log('authUrl:', authUrl);
-  res.send(`<a href="${authUrl}" target="_new">${authUrl}</a><form method="post" action="/token" ><input type="text" name="code"></input><input type="submit" value="create token" /></form>`);
+  res.send(`<a href="${authUrl}" target="_new">${authUrl}</a><form method="post" action="token" ><input type="text" name="code"></input><input type="submit" value="create token" /></form>`);
 })
 
 app.post('/token', async (req, res) => {
